@@ -1,82 +1,281 @@
+import React from "react"
+import Link from 'next/link'
 import Head from 'next/head'
+import Header from '../components/Header'
+import utilStyles from '../styles/utils.module.css'
+import { supabase } from "../utils/supabaseClient"
+import {Auth} from '@supabase/ui'
+import itemcard from '../components/ItemCard'
+import { useItems } from '../context/ItemContext'
+import { useUser } from '../context/UserContext'
 
 export default function Home() {
+  const { user } = Auth.useUser()
+
+  const { items, setItems } = useItems()
+
+  
+
+  
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+
+
+    <div className="bg-gray-700 min-h-screen min-w-screen">
       <Head>
-        <title>Create Next App</title>
+        <title>Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+      
+      <main className="container mx-auto max-w-prose px-4 pt-12">
+        {
+          user ? ( <div>
+          
+            <button onClick={ async() => {let {error}= await supabase.auth.signOut()}}
+            className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-full">Logout</button>
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
-
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+            </div>
+          ):(
+            <Auth supabaseClient={supabase} socialLayout="horizontal" socialButtonSize="xlarge"/>
+          )
+        }
       </main>
 
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
+      <div className="cartcontainer">
+        <div className ="cart">
+            <Link href="/cart" >
+                <a>cart</a>
+            </Link>
+        </div>
+      </div>
+
+      <div className="page">
+        
+        <div className="nav">
+          <Head>
+            <title>Home</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+        </div>
+        
+
+        <h1>Stylish Stationary</h1>
+        <main>
+          <section className = {utilStyles.pages}>
+            <h4 className="notebook-page-title">
+              <Link href="/notebooks">
+                <a>Notebooks</a>
+              </Link>
+            </h4>
+
+            <h4 className="card-game-page-title">
+              <Link href="/cardgames">
+                <a>Card Games</a>
+              </Link>
+            </h4>
+
+            <h4 className="planners-page-title">
+              <Link href="/planners">
+                <a>Planners</a>
+              </Link>
+            </h4>
+
+            <h4 className="pens-and-pencils-page-title">
+              <Link href="/pensandpencils">
+                <a>Pens and Pencils</a>
+              </Link>
+            </h4>
+        </section>
+
+
+        </main>
+        <hr></hr>
+
     </div>
+
+    <body>
+    </body>
+
+    <div className="space">
+    </div>
+
+    <div className="saleSection">
+      <div className="onSaleBox">
+      <h2>SALE</h2>
+            <div className="column">
+              <img src ="/images/Emily_Notebook.png" title="E N" width="200" 
+                height="200"></img> 
+            </div>
+            <div className="column">
+            <img src="/images/Multicolor_Organic_Pen_Pack.png" title="S N" width="200" 
+              height="200"></img>  
+            </div>
+            <div className="column">
+              <img src="/images/Minimal_Planner.png" title="S N" width="200" 
+                            height="200"></img> 
+            </div>
+      </div>
+    </div>
+
+    <div className="space2">
+    </div>
+
+    <div className="reccomendedSection">
+      <div className="reccomendBox">
+        <div className="column">
+                <img src ="/images/Sarah_Notebook.png" title="E N" width="200" 
+                  height="200"></img> 
+              </div>
+              <div className="column">
+              <img src="/images/Hot_Girl_Hangover.png" title="S N" width="200" 
+                height="200"></img>  
+              </div>
+              <div className="column">
+                <img src="/images/Hourly_Planner.png" title="S N" width="200" 
+                              height="200"></img> 
+              </div>
+              <h2>FAVS</h2>
+        </div> 
+    </div>
+
+    <footer>
+
+    </footer>
+
+        <style jsx>{`
+
+          .notebook-page-title {
+            padding:30px;
+          }
+
+          .card-game-page-title{
+            padding:30px;
+          }
+
+          .planners-page-title{
+            padding: 30px;
+          }
+
+          .pens-and-pencils-page-title{
+            padding: 30px;
+          }
+
+          hr {
+            display: block;
+            width: 85vw;
+            color: white;
+            background-color: white;
+            border: 3;
+            border-color: white;       
+          }
+
+          .page {
+            height: 100%;
+            width: 100%;
+            min-width:100vw;
+          }
+          main {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: right;
+          }
+
+          h1 {
+            color: white;
+            align-items: center;
+            text-align: center;
+          }
+
+          h2 {
+            color: pink;
+            align-items: center;
+            text-align: center;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+          }
+
+          a {
+            color: white;
+            text-decoration: none;
+          }
+
+          .saleSection {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+          }
+
+          .onSaleBox {
+            height: 16em;
+            width: 75vw;
+            display: flex;
+            flex-direction: row;
+            background-color: white;
+            align-items: center;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            border-radius: 10px; /* future proofing */
+            -khtml-border-radius: 10px;
+          }
+
+          .column {
+            display: flex;
+            flex: 33.33%;
+            padding: 7px;
+            justify-content: space-evenly;
+          }
+
+          .reccomendedSection {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+          }
+
+          .reccomendBox {
+            height: 16em;
+            width: 75vw;
+            display: flex;
+            flex-direction: row;
+            background-color: white;
+            align-items: center;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            border-radius: 10px; /* future proofing */
+            -khtml-border-radius: 10px;
+          }
+
+          .space{
+            height: 15px;
+            color: pink;
+          }
+
+          .space2 {
+            height: 30px;
+            color: pink;
+          }
+
+          footer {
+            height: 70px;
+          }
+
+          .cartcontainer {
+            display: flex;
+            flex-direction: row;
+            padding: 0px 20px;
+          }
+
+          .cart {
+            align-items: right;
+          }
+
+
+
+        `}</style>
+      </div> 
+    
+   
   )
 }
+  
